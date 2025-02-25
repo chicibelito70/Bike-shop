@@ -15,7 +15,7 @@ Este proyecto es una página web dedicada al mundo del ciclismo. Ofrece informac
 ## 🖼️ Vista Previa
 
 ![Vista previa 1](img/images.png)
-![Vista previa 2](img/imagen 2.png)
+![Vista previa 2](img/imagen2.png)
 
 
 ## 🛠️ Tecnologías Utilizadas
@@ -55,4 +55,4 @@ Las contribuciones son bienvenidas. Puedes hacer un fork del proyecto y enviar u
 
 ## 📧 Contacto
 
-Para cualquier consulta, puedes escribir a: [contacto@bicicletasweb.com]carlosvillavizar07@gmail.com
+Para cualquier consulta, puedes escribir a: carlosvillavizar07@gmail.com
