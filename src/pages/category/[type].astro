@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import BikeFilters from '../../components/BikeFilters.astro';
+import BikeCard from '../../components/BikeCard.astro';
+import { bikes } from '../../data/bikes';
+
+export function getStaticPaths() {
+  return [
+    {params: {type: 'mtb'}, props: {type: 'MTB'}},
+    {params: {type: 'ruta'}, props: {type: 'RUTA'}},
+    {params: {type: 'e_bike'}, props: {type: 'E_BIKE'}},
+    {params: {type: 'gravel'}, props: {type: 'GRAVEL'}},
+  ];
+}
+
+const { type } = Astro.props;
+const filteredBikes = bikes.filter(bike => bike.type === type);
+---
+
+<Layout title={`${type.replace('_', ' ')} Bikes - Bike Shop`}>
+  <Header />
+  
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <BikeFilters selectedType={type} />
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredBikes.map(bike => <BikeCard bike={bike} />)}
+    </div>
+  </main>
+</Layout>

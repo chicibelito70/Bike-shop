@@ -1,0 +1,31 @@
+---
+const bikeTypes = ['MTB', 'RUTA', 'E_BIKE', 'GRAVEL'];
+const { selectedType } = Astro.props;
+---
+
+<div class="flex gap-4 mb-8 overflow-x-auto pb-2">
+  <a
+    href="/"
+    class={`px-4 py-2 rounded-full ${
+      !selectedType
+        ? 'bg-blue-600 text-white'
+        : 'bg-white text-gray-700 hover:bg-gray-50'
+    }`}
+  >
+    All Bikes
+  </a>
+  {
+    bikeTypes.map((type) => (
+      <a
+        href={`/category/${type.toLowerCase()}`}
+        class={`px-4 py-2 rounded-full whitespace-nowrap ${
+          selectedType === type
+            ? 'bg-blue-600 text-white'
+            : 'bg-white text-gray-700 hover:bg-gray-50'
+        }`}
+      >
+        {type.replace('_', ' ')}
+      </a>
+    ))
+  }
+</div>

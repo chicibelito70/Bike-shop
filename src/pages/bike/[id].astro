@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { ReservationForm } from '../../components/ReservationForm.tsx';
+import { bikes } from '../../data/bikes';
+import { Calendar, CreditCard } from 'lucide-react';
+
+export function getStaticPaths() {
+  return bikes.map(bike => ({
+    params: { id: bike.id },
+    props: { bike },
+  }));
+}
+
+const { bike } = Astro.props;
+---
+
+<Layout title={`${bike.name} - Bike Shop`}>
+  <Header />
+  
+  <main class="max-w-7xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img 
+        src={bike.image} 
+        alt={bike.name} 
+        class="w-full h-96 object-cover"
+      />
+      
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h2 class="text-3xl font-bold mb-2">{bike.name}</h2>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full">
+              {bike.type.replace('_', ' ')}
+            </span>
+          </div>
+          <div class="text-right">
+            <p class="text-3xl font-bold text-blue-600">
+              ${bike.price.toLocaleString()}
+            </p>
+            <p class="text-green-600 font-medium">
+              {bike.available ? 'Available' : 'Not Available'}
+            </p>
+          </div>
+        </div>
+
+        <p class="text-gray-600 mb-6">{bike.description}</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Specifications</h3>
+            <dl class="space-y-2">
+              <div class="flex justify-between">
+                <dt class="text-gray-600">Frame</dt>
+                <dd class="font-medium">{bike.specs.frame}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-gray-600">Groupset</dt>
+                <dd class="font-medium">{bike.specs.groupset}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-gray-600">Wheels</dt>
+                <dd class="font-medium">{bike.specs.wheels}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-gray-600">Weight</dt>
+                <dd class="font-medium">{bike.specs.weight}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            id="reserveButton"
+            class="flex-1 bg-blue-600 text-white py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700"
+          >
+            <Calendar size={20} />
+            Reserve Now
+          </button>
+          <button
+            class="flex-1 bg-green-600 text-white py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700"
+          >
+            <CreditCard size={20} />
+            Buy Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="reservationFormContainer"></div>
+</Layout>
+
+<script>
+  import { bikes } from '../../data/bikes';
+  
+  // Get the bike ID from the URL
+  const bikeId = window.location.pathname.split('/').pop();
+  const bike = bikes.find(b => b.id === bikeId);
+  
+  if (bike) {
+    const reserveButton = document.getElementById('reserveButton');
+    const formContainer = document.getElementById('reservationFormContainer');
+    
+    if (reserveButton && formContainer) {
+      let showingForm = false;
+      
+      reserveButton.addEventListener('click', () => {
+        showingForm = !showingForm;
+        if (showingForm) {
+          // @ts-ignore
+          formContainer.innerHTML = '<reservation-form />';
+        } else {
+          formContainer.innerHTML = '';
+        }
+      });
+    }
+  }
+</script>
